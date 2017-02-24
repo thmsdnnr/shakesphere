@@ -19,6 +19,6 @@ window.onload=function(){
     haikuList.forEach((haiku)=>{
       hDiv.innerHTML+=`<p>${H.upperCaseLine(haiku[0])}<br />${haiku[1]}<br />${haiku[2]}.</p>`;
     });
-    formDiv.innerHTML=`<a href="/">start again</a>`;
+    formDiv.innerHTML=`<a href="./">start again</a>`;
   }
 }
