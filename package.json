@@ -1,0 +1,17 @@
+{
+  "name": "hku",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "speakeasy-nlp": "^0.2.12",
+    "syllable": "^2.0.0"
+  },
+  "devDependencies": {},
+  "description": ""
+}
