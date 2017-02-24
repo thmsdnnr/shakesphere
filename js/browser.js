@@ -7,8 +7,6 @@ window.onload=function(){
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(e);
-    console.log(t.value);
     listHaikus(t.value);
   }
 
