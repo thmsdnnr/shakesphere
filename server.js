@@ -7,6 +7,68 @@
     this.text=text;
   };
 
+  HaikYou.prototype.triforce = function(text) { //generates a trigram dictionary of words in text array
+    let trigrams={};
+    let wordOne,wordTwo,wordThree;
+    for (var i=0;i<text.length-2;i++) {
+      wordOne=text[i];
+      wordTwo=text[i+1];
+      wordThree=text[i+2];
+      if (wordOne!==''&&wordTwo!=='') {
+        (trigrams[wordOne+' '+wordTwo]) ? trigrams[wordOne+' '+wordTwo].push(wordThree) : trigrams[wordOne+' '+wordTwo]=[wordThree];
+      }
+    }
+    return trigrams;
+  }
+
+//TODO break out markov functions
+//write tests
+//support n-grams over 3: isSelfAbsorbed should be the same thing
+//make triforce support things other than i+2 back, make sure to check indices, maybe have a max # on the thing too
+
+  randomKeyChoice = (t) => Object.keys(t)[Math.floor(Math.random()*Object.keys(t).length)];
+  randomValueChoice = (t, key) => (typeof t[key]!=='undefined') ? t[key][0] : null;
+
+  isSelfAbsorbed = (acc) => {
+    const trigrams=HaikYou.prototype.triforce(acc);
+    const keys=Object.keys(trigrams);
+    for (var i=0;i<keys.length;i++) {
+      if (trigrams[keys[i]].length>1) { return true; }
+    }
+    return false;
+  }
+
+  isDuplicateWord = (acc, word) => {
+    if (acc.length<2) { return false; }
+    else { return acc[acc.length-1]===word; }
+  }
+
+  HaikYou.prototype.windMaker = function(trigrams, numWords=10) {
+    let loopCt=0;
+    let newKey='';
+    let newWord='';
+    let key=randomKeyChoice(trigrams);
+    let acc=[key.split(" ")[0], key.split(" ")[1]];
+    while ((acc.length<numWords)&&(loopCt<10000)) {
+      newWord=randomValueChoice(trigrams, key);
+      if (newWord!=="") {
+        key=acc[acc.length-1]+' '+newWord;
+        acc.push(newWord);
+      }
+      if (acc.length>4) { //if it is possible we have fallen into a self-absorbed state
+        if (isSelfAbsorbed(acc)) { //check to see, and if so:
+          key=randomKeyChoice(trigrams); //1) get a new random key
+          acc.splice(acc.length-4); //2) chop off the repetition
+        }
+        if (acc[acc.length-1]===acc[acc.length-2]) { //remove duplication
+          acc.splice(acc.length-1);
+        }
+      }
+      loopCt++;
+    }
+    return acc.join(" ");
+  }
+
   HaikYou.prototype.processWords = function(text) {
     let words=text.replace(/\n/g,' ').split(" ").filter((word)=>!word.match(/[^A-Za-z]/g));
     return words.map(word=>word.trim().toLowerCase());
@@ -69,7 +131,6 @@
           return true;
         }
       }
-      return true;
     }
     else { return false; }
   });

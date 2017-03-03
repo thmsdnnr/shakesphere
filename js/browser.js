@@ -12,6 +12,11 @@ window.onload=function(){
 
   function listHaikus(text) {
     let hDiv=document.getElementById('haiku');
+    hDiv.innerHTML+=`<p>Some random Markov reconstructions:</p><p>${H.windMaker(H.triforce(H.processWords(text)),40)}</p><p>`;
+    hDiv.innerHTML+=H.windMaker(H.triforce(H.processWords(text)),40)+'</p><p>';
+    hDiv.innerHTML+=H.windMaker(H.triforce(H.processWords(text)),40)+'</p><p>';
+    hDiv.innerHTML+=H.windMaker(H.triforce(H.processWords(text)),40)+'</p><p>';
+    hDiv.innerHTML+=H.windMaker(H.triforce(H.processWords(text)),40)+'</p>';
     let articles=['a','and','the','it','not','or','but','so','in','i','to','is','of','on','an'];
     let wordList=H.processWords(text);
     let haikuList=H.pruneHaikuList(H.generateHaikuList(wordList), articles);
